@@ -2,48 +2,69 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { User, UserRound, type LucideIcon } from "lucide-react";
+import {
+  Dumbbell,
+  Flame,
+  Sparkles,
+  type LucideIcon,
+} from "lucide-react";
 import { OptionCard } from "@/components/quiz/OptionCard";
-import { useQuizStore, type Gender } from "@/store/quiz";
+import { useQuizStore, type Goal } from "@/store/quiz";
 
 interface OptionMeta {
-  value: Gender;
+  value: Goal;
   label: string;
   description: string;
   Icon: LucideIcon;
 }
 
 const OPTIONS: OptionMeta[] = [
-  { value: "male", label: "男生", description: "Male", Icon: User },
-  { value: "female", label: "女生", description: "Female", Icon: UserRound },
+  {
+    value: "lose",
+    label: "减脂塑身",
+    description: "降低体脂，让线条更清晰",
+    Icon: Flame,
+  },
+  {
+    value: "gain",
+    label: "增肌增重",
+    description: "增加肌肉量与力量",
+    Icon: Dumbbell,
+  },
+  {
+    value: "tone",
+    label: "保持塑形",
+    description: "维持现状，整体提升状态",
+    Icon: Sparkles,
+  },
 ];
 
 const ADVANCE_DELAY_MS = 240;
 
-export default function Step1Page() {
+export default function Step2Page() {
   const router = useRouter();
   const [locked, setLocked] = useState(false);
-  const gender = useQuizStore((s) => s.gender);
-  const setGender = useQuizStore((s) => s.setGender);
+  const goal = useQuizStore((s) => s.goal);
+  const setGoal = useQuizStore((s) => s.setGoal);
 
-  const handlePick = (value: Gender) => {
+  const handlePick = (value: Goal) => {
     if (locked) return;
     setLocked(true);
-    setGender(value);
-    window.setTimeout(() => router.push("/quiz/step-2"), ADVANCE_DELAY_MS);
+    setGoal(value);
+    window.setTimeout(() => router.push("/quiz/step-3"), ADVANCE_DELAY_MS);
   };
 
   return (
     <section className="space-y-7">
       <header className="space-y-3">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
-          Step 1 / 6
+          Step 2 / 6
         </p>
         <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground sm:text-[32px]">
-          你的性别？
+          你的健身目标？
         </h1>
         <p className="text-[15px] leading-relaxed text-muted">
-          基于性别，方案会有不同的代谢和训练侧重。
+          选择最贴近的一个。
         </p>
       </header>
 
@@ -54,7 +75,7 @@ export default function Step1Page() {
             label={label}
             description={description}
             icon={<Icon size={26} strokeWidth={1.6} />}
-            selected={gender === value}
+            selected={goal === value}
             onSelect={() => handlePick(value)}
             disabled={locked}
           />

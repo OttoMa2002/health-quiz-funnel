@@ -12,7 +12,12 @@ export function QuizShell({ children }: { children: React.ReactNode }) {
   const backHref = step <= 1 ? "/" : `/quiz/step-${step - 1}`;
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      className="flex min-h-screen flex-col"
+    >
       <header className="sticky top-0 z-20 border-b border-border/60 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-xl items-center gap-3 px-5 py-4">
           <Link
@@ -38,7 +43,7 @@ export function QuizShell({ children }: { children: React.ReactNode }) {
       </header>
 
       <main className="relative flex flex-1 items-stretch justify-center overflow-x-hidden">
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence mode="wait">
           <motion.div
             key={pathname}
             initial={{ opacity: 0, x: 24 }}
@@ -51,6 +56,6 @@ export function QuizShell({ children }: { children: React.ReactNode }) {
           </motion.div>
         </AnimatePresence>
       </main>
-    </div>
+    </motion.div>
   );
 }
