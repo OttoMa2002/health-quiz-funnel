@@ -59,7 +59,7 @@ export default function Step4Page() {
     setLocked(true);
     setFrequency(value);
     window.setTimeout(() => {
-      router.push("/quiz/step-5");
+      router.push("/quiz/analyzing");
     }, ADVANCE_DELAY_MS);
   };
 
