@@ -52,6 +52,46 @@ const MAX_WEEKS = 52;
 const MAINTAIN_THRESHOLD_KG = 0.5;
 const MAINTAIN_DEFAULT_WEEKS = 8;
 
+const IDEAL_BMI_LOSE = 22;
+const IDEAL_BMI_GAIN = 23;
+const MAX_LOSE_RATIO = 0.85;
+const MAX_GAIN_RATIO = 1.10;
+
+export function recommendTargetWeightKg(
+  heightCm: number | null,
+  goal: Goal | null,
+  currentWeightKg: number | null,
+): number | null {
+  if (heightCm == null) return null;
+
+  const heightM = heightCm / 100;
+  const idealLose = heightM * heightM * IDEAL_BMI_LOSE;
+  const idealGain = heightM * heightM * IDEAL_BMI_GAIN;
+
+  if (currentWeightKg == null) {
+    return Math.round(goal === "gain" ? idealGain : idealLose);
+  }
+
+  let target: number;
+  switch (goal) {
+    case "lose":
+      target = Math.min(idealLose, currentWeightKg);
+      target = Math.max(target, currentWeightKg * MAX_LOSE_RATIO);
+      break;
+    case "gain":
+      target = Math.max(idealGain, currentWeightKg);
+      target = Math.min(target, currentWeightKg * MAX_GAIN_RATIO);
+      break;
+    case "tone":
+      target = currentWeightKg;
+      break;
+    default:
+      target = idealLose;
+  }
+
+  return Math.round(target);
+}
+
 export function computeBmi(weightKg: number, heightCm: number): BmiInfo {
   const m = heightCm / 100;
   const value = Math.round((weightKg / (m * m)) * 10) / 10;

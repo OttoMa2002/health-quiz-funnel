@@ -10,6 +10,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { OptionCard } from "@/components/quiz/OptionCard";
+import { TOTAL_STEPS } from "@/lib/quiz-config";
 import { useQuizStore, type Frequency } from "@/store/quiz";
 
 interface OptionMeta {
@@ -67,7 +68,7 @@ export default function Step4Page() {
     <section className="space-y-7">
       <header className="space-y-3">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
-          Step 4 / 6
+          Step 4 / {TOTAL_STEPS}
         </p>
         <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground sm:text-[32px]">
           你目前的运动频率？
@@ -86,7 +87,6 @@ export default function Step4Page() {
             icon={<Icon size={26} strokeWidth={1.6} />}
             selected={frequency === value}
             onSelect={() => handlePick(value)}
-            disabled={locked}
           />
         ))}
       </div>

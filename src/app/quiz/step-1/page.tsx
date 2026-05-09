@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { User, UserRound, type LucideIcon } from "lucide-react";
 import { OptionCard } from "@/components/quiz/OptionCard";
+import { TOTAL_STEPS } from "@/lib/quiz-config";
 import { useQuizStore, type Gender } from "@/store/quiz";
 
 interface OptionMeta {
@@ -37,7 +38,7 @@ export default function Step1Page() {
     <section className="space-y-7">
       <header className="space-y-3">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
-          Step 1 / 6
+          Step 1 / {TOTAL_STEPS}
         </p>
         <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground sm:text-[32px]">
           你的性别？
@@ -56,7 +57,6 @@ export default function Step1Page() {
             icon={<Icon size={26} strokeWidth={1.6} />}
             selected={gender === value}
             onSelect={() => handlePick(value)}
-            disabled={locked}
           />
         ))}
       </div>

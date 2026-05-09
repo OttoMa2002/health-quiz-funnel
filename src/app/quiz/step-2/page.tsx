@@ -9,6 +9,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { OptionCard } from "@/components/quiz/OptionCard";
+import { TOTAL_STEPS } from "@/lib/quiz-config";
 import { useQuizStore, type Goal } from "@/store/quiz";
 
 interface OptionMeta {
@@ -58,7 +59,7 @@ export default function Step2Page() {
     <section className="space-y-7">
       <header className="space-y-3">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
-          Step 2 / 6
+          Step 2 / {TOTAL_STEPS}
         </p>
         <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground sm:text-[32px]">
           你的健身目标？
@@ -77,7 +78,6 @@ export default function Step2Page() {
             icon={<Icon size={26} strokeWidth={1.6} />}
             selected={goal === value}
             onSelect={() => handlePick(value)}
-            disabled={locked}
           />
         ))}
       </div>

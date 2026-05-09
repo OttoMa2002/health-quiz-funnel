@@ -92,6 +92,7 @@ export default function Step5Page() {
   const chartPoints = report.trend.map((p) => ({
     x: p.daysFromStart,
     y: toDisplay(p.weightKg),
+    date: p.date,
   }));
 
   const directionLabel =
@@ -206,7 +207,7 @@ export default function Step5Page() {
           onClick={() => setModalOpen(true)}
           className="group inline-flex h-14 w-full items-center justify-center rounded-full bg-accent px-8 text-base font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_rgba(234,179,8,0.6)] transition-all duration-200 hover:bg-accent-hover hover:shadow-[0_10px_32px_-8px_rgba(234,179,8,0.7)] active:scale-[0.985]"
         >
-          解锁完整 12 周计划
+          解锁我们为您定制的完整计划
           <svg
             className="ml-2 transition-transform duration-200 group-hover:translate-x-0.5"
             width="18"
@@ -222,7 +223,7 @@ export default function Step5Page() {
           </svg>
         </button>
         <p className="text-center text-xs text-subtle">
-          上方数据基于你的回答动态计算 · 仅供参考
+          上方数据基于您提供的数据动态计算，完整计划将包含每周训练和饮食方案，并根据您的进度进行调整。
         </p>
       </motion.div>
 

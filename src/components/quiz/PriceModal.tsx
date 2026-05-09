@@ -104,7 +104,7 @@ export function PriceModal({ open, onClose }: PriceModalProps) {
                 id="price-modal-title"
                 className="text-2xl font-semibold tracking-tight text-foreground"
               >
-                解锁完整 12 周计划
+                解锁完整计划
               </h2>
               <p className="mx-auto max-w-xs text-sm leading-relaxed text-muted">
                 按你的目标定制每周训练 + 饮食方案，随时根据进度调整。

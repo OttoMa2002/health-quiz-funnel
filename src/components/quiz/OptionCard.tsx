@@ -26,7 +26,7 @@ export function OptionCard({
       onClick={onSelect}
       disabled={disabled}
       whileTap={disabled ? undefined : { scale: 0.985 }}
-      className={`group relative flex w-full items-center gap-4 rounded-[var(--radius-card)] border p-4 text-left transition-all duration-200 ease-out disabled:cursor-not-allowed ${
+      className={`group relative flex w-full cursor-pointer items-center gap-4 rounded-[var(--radius-card)] border p-4 text-left transition-all duration-200 ease-out disabled:cursor-not-allowed ${
         selected
           ? "border-accent bg-accent-soft/30 shadow-[var(--shadow-card-hover)]"
           : "border-border bg-surface hover:border-border-strong hover:shadow-[var(--shadow-card)]"
