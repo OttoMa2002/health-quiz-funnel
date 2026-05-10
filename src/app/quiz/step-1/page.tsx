@@ -40,7 +40,7 @@ export default function Step1Page() {
     <section className="space-y-7">
       <header className="space-y-3">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
-          Step 1 / {TOTAL_STEPS}
+          1 / {TOTAL_STEPS}
         </p>
         <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground sm:text-[32px]">
           {t("step1.title")}
@@ -59,6 +59,7 @@ export default function Step1Page() {
             icon={<Icon size={26} strokeWidth={1.6} />}
             selected={gender === value}
             onSelect={() => handlePick(value)}
+            variant="minimal"
           />
         ))}
       </div>

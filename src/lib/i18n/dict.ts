@@ -16,7 +16,6 @@ const zh = {
     recommendBadge: "推荐",
   },
   home: {
-    eyebrow: "一个快速·简单·便捷的健康测评",
     titleLine1: "三分钟",
     titleLine2: "找到属于你的方案",
     subtitle: "仅需回答几个简单问题，我们将基于你的身体数据生成个性化的建议。",
@@ -143,7 +142,6 @@ const en: typeof zh = {
     recommendBadge: "REC",
   },
   home: {
-    eyebrow: "A fast · simple · easy health quiz",
     titleLine1: "Find your plan",
     titleLine2: "in three minutes",
     subtitle: "Answer a few quick questions and we'll build personalized recommendations from your data.",

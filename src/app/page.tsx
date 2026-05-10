@@ -20,16 +20,13 @@ export default function Home() {
       </div>
 
       <div className="relative flex w-full max-w-md flex-col items-center text-center">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">
-          {t("home.eyebrow")}
-        </span>
 
         <h1 className="mt-5 text-4xl font-semibold leading-[1.15] tracking-tight text-foreground sm:text-[44px]">
           {t("home.titleLine1")}<br />
           {t("home.titleLine2")}
         </h1>
 
-        <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-muted">
+        <p className="max-w-sm text-[15px] leading-relaxed text-muted">
           {t("home.subtitle")}
         </p>
 

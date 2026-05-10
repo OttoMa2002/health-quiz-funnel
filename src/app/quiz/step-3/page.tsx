@@ -148,7 +148,7 @@ export default function Step3Page() {
     <section className="space-y-7 pb-4">
       <header className="space-y-3">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
-          Step 3 / {TOTAL_STEPS}
+          3 / {TOTAL_STEPS}
         </p>
         <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground sm:text-[32px]">
           {t("step3.title")}
