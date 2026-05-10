@@ -197,21 +197,19 @@ export default function Step5Page() {
             endWeight={endWeight}
           />
         </div>
-      </motion.div>
 
-      {/* Insight */}
-      <motion.div
-        className="flex items-start gap-3 rounded-[var(--radius-card)] border border-border bg-accent-soft/40 p-4"
-        {...card(3)}
-      >
-        <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground">
-          <Target size={16} strokeWidth={2.2} />
+        <div className="mt-4 flex items-start gap-2 border-t border-border pt-4">
+          <Target
+            size={13}
+            strokeWidth={2.2}
+            className="mt-0.5 shrink-0 text-muted"
+          />
+          <p className="text-xs leading-relaxed text-muted">{insight}</p>
         </div>
-        <p className="text-sm leading-relaxed text-foreground">{insight}</p>
       </motion.div>
 
       {/* CTA */}
-      <motion.div className="space-y-3" {...card(4)}>
+      <motion.div className="space-y-3" {...card(3)}>
         <button
           type="button"
           onClick={() => setModalOpen(true)}

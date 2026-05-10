@@ -2,29 +2,30 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useT, type I18nKey } from "@/lib/i18n";
 
 interface Plan {
   id: string;
   titleKey: I18nKey;
-  totalPrice: number;
-  perMonth: number;
+  price: number;
   badgeKey?: I18nKey;
   highlight?: boolean;
 }
 
 const PLANS: Plan[] = [
-  { id: "monthly", titleKey: "price.monthly", totalPrice: 98, perMonth: 98 },
   {
-    id: "quarter",
-    titleKey: "price.quarter",
-    totalPrice: 168,
-    perMonth: 56,
+    id: "report",
+    titleKey: "price.tier1Title",
+    price: 39,
+  },
+  {
+    id: "report-plus-plan",
+    titleKey: "price.tier2Title",
+    price: 128,
     badgeKey: "price.badgePopular",
     highlight: true,
   },
-  { id: "yearly", titleKey: "price.yearly", totalPrice: 298, perMonth: 25, badgeKey: "price.badgeSave" },
 ];
 
 interface PriceModalProps {
@@ -101,29 +102,24 @@ export function PriceModal({ open, onClose }: PriceModalProps) {
               <X size={18} strokeWidth={2.2} />
             </button>
 
-            <div className="space-y-2 text-center">
-              <h2
-                id="price-modal-title"
-                className="text-2xl font-semibold tracking-tight text-foreground"
-              >
-                {t("price.title")}
-              </h2>
-              <p className="mx-auto max-w-xs text-sm leading-relaxed text-muted">
-                {t("price.subtitle")}
-              </p>
-            </div>
+            <h2
+              id="price-modal-title"
+              className="text-center text-2xl font-semibold tracking-tight text-foreground"
+            >
+              {t("price.title")}
+            </h2>
 
-            <ul className="mt-7 space-y-3">
+            <ul className="mt-6 space-y-4">
               {PLANS.map((plan) => (
                 <li key={plan.id}>
                   <motion.button
                     type="button"
                     onClick={() => handlePick(plan)}
                     whileTap={{ scale: 0.985 }}
-                    className={`relative flex w-full cursor-pointer items-center justify-between rounded-2xl border px-5 py-4 text-left transition-all duration-200 ease-out hover:shadow-[var(--shadow-card-hover)] ${
+                    className={`relative flex w-full cursor-pointer items-center justify-between rounded-2xl border px-5 py-6 text-left transition-all duration-200 ease-out hover:shadow-[var(--shadow-card-hover)] ${
                       plan.highlight
                         ? "border-accent bg-accent-soft/50 shadow-[var(--shadow-card)]"
-                        : "border-border bg-surface hover:border-border-strong"
+                        : "border-border bg-surface shadow-[var(--shadow-card)] hover:border-border-strong"
                     }`}
                   >
                     {plan.badgeKey && (
@@ -137,34 +133,20 @@ export function PriceModal({ open, onClose }: PriceModalProps) {
                         {t(plan.badgeKey)}
                       </span>
                     )}
-                    <div>
-                      <div className="text-base font-semibold text-foreground">
+                    <div className="pr-4">
+                      <div className="text-lg font-semibold text-foreground">
                         {t(plan.titleKey)}
                       </div>
-                      <div className="mt-0.5 text-xs text-muted">
-                        {t("price.perMonth", { price: plan.perMonth })}
-                      </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-xl font-semibold text-foreground">
-                        {t("price.totalPrice", { price: plan.totalPrice })}
+                    <div className="shrink-0 text-right">
+                      <div className="text-2xl font-semibold text-foreground">
+                        ¥{plan.price}
                       </div>
-                      <div className="text-[11px] text-subtle">{t("price.totalLabel")}</div>
                     </div>
                   </motion.button>
                 </li>
               ))}
             </ul>
-
-            <div className="mt-6 flex items-center justify-center gap-3 text-[11px] text-subtle">
-              <span className="inline-flex items-center gap-1">
-                <Check size={12} strokeWidth={2.6} /> {t("price.benefit7d")}
-              </span>
-              <span className="h-3 w-px bg-border" />
-              <span className="inline-flex items-center gap-1">
-                <Check size={12} strokeWidth={2.6} /> {t("price.benefitCancel")}
-              </span>
-            </div>
           </motion.div>
 
           <AnimatePresence>
