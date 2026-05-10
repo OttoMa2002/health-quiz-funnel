@@ -21,7 +21,7 @@ export function QuizShell({ children }: { children: React.ReactNode }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className="flex min-h-screen flex-col"
+      className="flex min-h-dvh flex-col"
     >
       {!isImmersive && (
         <header className="sticky top-0 z-20 border-b border-border/50 bg-background/55 backdrop-blur-2xl backdrop-saturate-150">

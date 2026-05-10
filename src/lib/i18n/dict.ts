@@ -86,7 +86,6 @@ const zh = {
     msg2: "计算你的 BMI...",
     msg3: "评估你的代谢效率...",
     msg4: "生成个性化方案...",
-    msg5: "马上完成...",
   },
   step5: {
     eyebrow: "你的个人方案",
@@ -212,7 +211,6 @@ const en: typeof zh = {
     msg2: "Computing your BMI...",
     msg3: "Evaluating metabolic efficiency...",
     msg4: "Building your personal plan...",
-    msg5: "Almost there...",
   },
   step5: {
     eyebrow: "Your personal plan",

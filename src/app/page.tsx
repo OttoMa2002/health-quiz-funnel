@@ -8,7 +8,7 @@ import { ThemeToggle } from "@/components/quiz/ThemeToggle";
 export default function Home() {
   const t = useT();
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-16">
+    <main className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-16">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-[-20%] h-[60%] bg-[radial-gradient(ellipse_at_center,_var(--color-accent-soft)_0%,_transparent_70%)] opacity-70"
