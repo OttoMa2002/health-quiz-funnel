@@ -215,7 +215,7 @@ export default function Step5Page() {
         <button
           type="button"
           onClick={() => setModalOpen(true)}
-          className="group inline-flex h-14 w-full cursor-pointer items-center justify-center rounded-full bg-accent px-8 text-base font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_rgba(234,179,8,0.6)] transition-all duration-200 hover:bg-accent-hover hover:shadow-[0_10px_32px_-8px_rgba(234,179,8,0.7)] active:scale-[0.985]"
+          className="group inline-flex h-14 w-full cursor-pointer items-center justify-center rounded-full bg-accent px-8 text-base font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_rgba(253,208,0,0.55)] transition-all duration-200 hover:bg-accent-hover hover:shadow-[0_10px_32px_-8px_rgba(253,208,0,0.65)] active:scale-[0.985]"
         >
           {t("step5.cta")}
           <svg

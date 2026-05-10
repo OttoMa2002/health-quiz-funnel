@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useT } from "@/lib/i18n";
 import { LangToggle } from "@/components/quiz/LangToggle";
+import { ThemeToggle } from "@/components/quiz/ThemeToggle";
 
 export default function Home() {
   const t = useT();
@@ -13,7 +14,8 @@ export default function Home() {
         className="pointer-events-none absolute inset-x-0 top-[-20%] h-[60%] bg-[radial-gradient(ellipse_at_center,_var(--color-accent-soft)_0%,_transparent_70%)] opacity-70"
       />
 
-      <div className="absolute right-5 top-5 z-10">
+      <div className="absolute right-5 top-5 z-10 flex items-center gap-2">
+        <ThemeToggle />
         <LangToggle />
       </div>
 
@@ -33,7 +35,7 @@ export default function Home() {
 
         <Link
           href="/quiz/step-1"
-          className="group mt-10 inline-flex h-14 w-full items-center justify-center rounded-full bg-accent px-8 text-base font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_rgba(234,179,8,0.6)] transition-all duration-200 hover:bg-accent-hover hover:shadow-[0_10px_32px_-8px_rgba(234,179,8,0.7)] active:scale-[0.985]"
+          className="group mt-10 inline-flex h-14 w-full items-center justify-center rounded-full bg-accent px-8 text-base font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_rgba(253,208,0,0.55)] transition-all duration-200 hover:bg-accent-hover hover:shadow-[0_10px_32px_-8px_rgba(253,208,0,0.65)] active:scale-[0.985]"
         >
           {t("home.cta")}
           <svg

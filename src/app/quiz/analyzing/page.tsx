@@ -17,7 +17,7 @@ export default function AnalyzingPage() {
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--color-accent-soft)_0%,_transparent_60%)]"
-        animate={{ opacity: [0.35, 0.65, 0.35] }}
+        animate={{ opacity: [0.4, 0.8, 0.4] }}
         transition={{ duration: 3.5, ease: "easeInOut", repeat: Infinity }}
       />
 

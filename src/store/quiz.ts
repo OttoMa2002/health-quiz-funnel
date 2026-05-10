@@ -8,6 +8,7 @@ export type Goal = "lose" | "gain" | "tone";
 export type Frequency = "rarely" | "1-2" | "3-4" | "daily";
 export type Unit = "metric" | "imperial";
 export type Locale = "zh" | "en";
+export type Theme = "light" | "dark";
 
 export interface QuizState {
   gender: Gender | null;
@@ -22,6 +23,9 @@ export interface QuizState {
   locale: Locale;
   // True once the user has explicitly toggled language. Auto-detect skips override.
   localeManuallySet: boolean;
+  theme: Theme;
+  // True once the user has explicitly toggled theme. Auto-detect skips override.
+  themeManuallySet: boolean;
 
   setGender: (v: Gender) => void;
   setGoal: (v: Goal) => void;
@@ -34,6 +38,8 @@ export interface QuizState {
   setFrequency: (v: Frequency) => void;
   setLocale: (v: Locale) => void;
   setLocaleAutoDetected: (v: Locale) => void;
+  setTheme: (v: Theme) => void;
+  setThemeAutoDetected: (v: Theme) => void;
   reset: () => void;
 }
 
@@ -49,6 +55,8 @@ const initialData = {
   frequency: null,
   locale: "zh" as Locale,
   localeManuallySet: false,
+  theme: "light" as Theme,
+  themeManuallySet: false,
 };
 
 export const useQuizStore = create<QuizState>()(
@@ -66,6 +74,8 @@ export const useQuizStore = create<QuizState>()(
       setFrequency: (v) => set({ frequency: v }),
       setLocale: (v) => set({ locale: v, localeManuallySet: true }),
       setLocaleAutoDetected: (v) => set({ locale: v }),
+      setTheme: (v) => set({ theme: v, themeManuallySet: true }),
+      setThemeAutoDetected: (v) => set({ theme: v }),
       reset: () => set(initialData),
     }),
     {

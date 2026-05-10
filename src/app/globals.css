@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-background: #faf9f5;
   --color-surface: #ffffff;
@@ -7,14 +9,14 @@
   --color-border: #e8e6dd;
   --color-border-strong: #d9d6cb;
 
-  --color-foreground: #1a1a1a;
+  --color-foreground: #0a0a0a;
   --color-muted: #6c6b66;
   --color-subtle: #a09e96;
 
-  --color-accent: #eab308;
-  --color-accent-hover: #d4a307;
-  --color-accent-soft: #fef3c7;
-  --color-accent-foreground: #1a1a1a;
+  --color-accent: #fdd000;
+  --color-accent-hover: #e5bd00;
+  --color-accent-soft: rgba(253, 208, 0, 0.15);
+  --color-accent-foreground: #000000;
 
   --color-success: #16a34a;
   --color-danger: #dc2626;
@@ -31,6 +33,30 @@
     0 4px 16px rgba(20, 20, 20, 0.04);
   --shadow-card-hover: 0 2px 4px rgba(20, 20, 20, 0.06),
     0 12px 32px rgba(20, 20, 20, 0.08);
+}
+
+/* Dark mode overrides — same token names, different values.
+   Yellow accent, accent-foreground, and accent-soft (rgba) are intentionally
+   left identical: the BVB yellow reads great on both backgrounds, and the
+   half-transparent soft auto-adapts when layered on dark surface. */
+.dark {
+  --color-background: #0a0a08;
+  --color-surface: #1a1a17;
+  --color-surface-2: #232220;
+  --color-border: #2a2926;
+  --color-border-strong: #3a3833;
+
+  --color-foreground: #faf9f5;
+  --color-muted: #9a9890;
+  --color-subtle: #6a6862;
+
+  --color-success: #4ade80;
+  --color-danger: #f87171;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 2px 4px rgba(0, 0, 0, 0.5),
+    0 12px 32px rgba(0, 0, 0, 0.45);
 }
 
 html,

@@ -7,6 +7,7 @@ import { TOTAL_STEPS, getStepFromPath } from "@/lib/quiz-config";
 import { useT } from "@/lib/i18n";
 import { QuizProgressBar } from "./QuizProgressBar";
 import { LangToggle } from "./LangToggle";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function QuizShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -44,7 +45,10 @@ export function QuizShell({ children }: { children: React.ReactNode }) {
               </svg>
             </Link>
             <QuizProgressBar current={step} total={TOTAL_STEPS} />
-            <LangToggle />
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <LangToggle />
+            </div>
           </div>
         </header>
       )}

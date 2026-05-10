@@ -231,7 +231,7 @@ export default function Step3Page() {
         type="button"
         onClick={handleSubmit}
         disabled={!allValid}
-        className="group inline-flex h-14 w-full cursor-pointer items-center justify-center rounded-full bg-accent px-8 text-base font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_rgba(234,179,8,0.6)] transition-all duration-200 hover:bg-accent-hover hover:shadow-[0_10px_32px_-8px_rgba(234,179,8,0.7)] active:scale-[0.985] disabled:pointer-events-none disabled:bg-surface-2 disabled:text-subtle disabled:shadow-none"
+        className="group inline-flex h-14 w-full cursor-pointer items-center justify-center rounded-full bg-accent px-8 text-base font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_rgba(253,208,0,0.55)] transition-all duration-200 hover:bg-accent-hover hover:shadow-[0_10px_32px_-8px_rgba(253,208,0,0.65)] active:scale-[0.985] disabled:pointer-events-none disabled:bg-surface-2 disabled:text-subtle disabled:shadow-none"
       >
         {t("step3.submit")}
       </button>
@@ -395,7 +395,7 @@ function RecommendedTargetCard({
               {display ? t("step3.targetRecHint") : t("step3.targetRecPending")}
             </p>
           </div>
-          <span className="inline-flex items-center gap-1 rounded-full border border-accent/50 bg-accent/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
+          <span className="inline-flex items-center gap-1 rounded-full border border-accent/50 bg-accent/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-foreground">
             <Sparkles size={10} strokeWidth={2.5} />
             {t("common.recommendBadge")}
           </span>
@@ -403,7 +403,7 @@ function RecommendedTargetCard({
         <button
           type="button"
           onClick={onCustomize}
-          className="mt-3 cursor-pointer text-xs font-medium text-accent-foreground/80 underline-offset-4 hover:text-accent-foreground hover:underline"
+          className="mt-3 cursor-pointer text-xs font-medium text-foreground/70 underline-offset-4 hover:text-foreground hover:underline"
         >
           {t("step3.targetCustomize")}
         </button>
