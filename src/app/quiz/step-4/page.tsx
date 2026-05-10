@@ -28,7 +28,7 @@ const FREQUENCY_OPTIONS: OptionMeta[] = [
   { value: "daily", labelKey: "step4.dailyLabel", descKey: "step4.dailyDesc", Icon: Zap },
 ];
 
-const ADVANCE_DELAY_MS = 240;
+const ADVANCE_DELAY_MS = 180;
 
 export default function Step4Page() {
   const router = useRouter();

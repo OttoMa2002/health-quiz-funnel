@@ -26,7 +26,7 @@ const OPTIONS: OptionMeta[] = [
   { value: "tone", labelKey: "step2.toneLabel", descKey: "step2.toneDesc", Icon: Sparkles },
 ];
 
-const ADVANCE_DELAY_MS = 240;
+const ADVANCE_DELAY_MS = 180;
 
 export default function Step2Page() {
   const router = useRouter();

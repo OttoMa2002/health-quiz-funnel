@@ -20,7 +20,7 @@ const OPTIONS: OptionMeta[] = [
   { value: "female", labelKey: "step1.female", hintKey: "step1.femaleHint", Icon: UserRound },
 ];
 
-const ADVANCE_DELAY_MS = 240;
+const ADVANCE_DELAY_MS = 180;
 
 export default function Step1Page() {
   const router = useRouter();
