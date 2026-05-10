@@ -3,11 +3,14 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-background: #faf9f5;
+  --color-background: #fbfbf8;
   --color-surface: #ffffff;
   --color-surface-2: #f1efe7;
   --color-border: #e8e6dd;
   --color-border-strong: #d9d6cb;
+
+  /* Paper grain — fractal noise tile, baked alpha. Per-mode below. */
+  --bg-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
 
   --color-foreground: #0a0a0a;
   --color-muted: #6c6b66;
@@ -57,6 +60,10 @@
     0 4px 16px rgba(0, 0, 0, 0.3);
   --shadow-card-hover: 0 2px 4px rgba(0, 0, 0, 0.5),
     0 12px 32px rgba(0, 0, 0, 0.45);
+
+  /* Inverted (white-ish) noise at very low opacity — barely perceptible,
+     keeps the bg looking dark while adding faint texture. */
+  --bg-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/></svg>");
 }
 
 html,
@@ -66,6 +73,7 @@ body {
 
 body {
   background-color: var(--color-background);
+  background-image: var(--bg-grain);
   color: var(--color-foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

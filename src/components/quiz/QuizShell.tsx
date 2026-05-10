@@ -24,7 +24,7 @@ export function QuizShell({ children }: { children: React.ReactNode }) {
       className="flex min-h-screen flex-col"
     >
       {!isImmersive && (
-        <header className="sticky top-0 z-20 border-b border-border/60 bg-background/80 backdrop-blur-md">
+        <header className="sticky top-0 z-20 border-b border-border/50 bg-background/65 backdrop-blur-2xl backdrop-saturate-150">
           <div className="mx-auto flex w-full max-w-xl items-center gap-3 px-5 py-4">
             <Link
               href={backHref}
