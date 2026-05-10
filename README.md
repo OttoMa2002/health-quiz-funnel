@@ -22,5 +22,3 @@ Opens at http://localhost:3000.
 - `src/app/quiz/step-[1-5]/` — quiz routes
 - `src/store/` — Zustand store + persistence
 - `src/components/` — shared UI
-
-See [CLAUDE.md](./CLAUDE.md) for full project brief and development order.
