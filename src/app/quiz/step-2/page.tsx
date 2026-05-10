@@ -10,40 +10,27 @@ import {
 } from "lucide-react";
 import { OptionCard } from "@/components/quiz/OptionCard";
 import { TOTAL_STEPS } from "@/lib/quiz-config";
+import { useT, type I18nKey } from "@/lib/i18n";
 import { useQuizStore, type Goal } from "@/store/quiz";
 
 interface OptionMeta {
   value: Goal;
-  label: string;
-  description: string;
+  labelKey: I18nKey;
+  descKey: I18nKey;
   Icon: LucideIcon;
 }
 
 const OPTIONS: OptionMeta[] = [
-  {
-    value: "lose",
-    label: "减脂塑身",
-    description: "降低体脂，让线条更清晰",
-    Icon: Flame,
-  },
-  {
-    value: "gain",
-    label: "增肌增重",
-    description: "增加肌肉量与力量",
-    Icon: Dumbbell,
-  },
-  {
-    value: "tone",
-    label: "保持塑形",
-    description: "维持现状，整体提升状态",
-    Icon: Sparkles,
-  },
+  { value: "lose", labelKey: "step2.loseLabel", descKey: "step2.loseDesc", Icon: Flame },
+  { value: "gain", labelKey: "step2.gainLabel", descKey: "step2.gainDesc", Icon: Dumbbell },
+  { value: "tone", labelKey: "step2.toneLabel", descKey: "step2.toneDesc", Icon: Sparkles },
 ];
 
 const ADVANCE_DELAY_MS = 240;
 
 export default function Step2Page() {
   const router = useRouter();
+  const t = useT();
   const [locked, setLocked] = useState(false);
   const goal = useQuizStore((s) => s.goal);
   const setGoal = useQuizStore((s) => s.setGoal);
@@ -62,19 +49,19 @@ export default function Step2Page() {
           Step 2 / {TOTAL_STEPS}
         </p>
         <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground sm:text-[32px]">
-          你的健身目标？
+          {t("step2.title")}
         </h1>
         <p className="text-[15px] leading-relaxed text-muted">
-          选择最贴近的一个。
+          {t("step2.subtitle")}
         </p>
       </header>
 
       <div className="space-y-3">
-        {OPTIONS.map(({ value, label, description, Icon }) => (
+        {OPTIONS.map(({ value, labelKey, descKey, Icon }) => (
           <OptionCard
             key={value}
-            label={label}
-            description={description}
+            label={t(labelKey)}
+            description={t(descKey)}
             icon={<Icon size={26} strokeWidth={1.6} />}
             selected={goal === value}
             onSelect={() => handlePick(value)}

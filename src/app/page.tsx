@@ -1,6 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { useT } from "@/lib/i18n";
+import { LangToggle } from "@/components/quiz/LangToggle";
 
 export default function Home() {
+  const t = useT();
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-16">
       <div
@@ -8,25 +13,29 @@ export default function Home() {
         className="pointer-events-none absolute inset-x-0 top-[-20%] h-[60%] bg-[radial-gradient(ellipse_at_center,_var(--color-accent-soft)_0%,_transparent_70%)] opacity-70"
       />
 
+      <div className="absolute right-5 top-5 z-10">
+        <LangToggle />
+      </div>
+
       <div className="relative flex w-full max-w-md flex-col items-center text-center">
         <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">
-          一个快速·简单·便捷的健康测评
+          {t("home.eyebrow")}
         </span>
 
         <h1 className="mt-5 text-4xl font-semibold leading-[1.15] tracking-tight text-foreground sm:text-[44px]">
-          三分钟<br />
-          找到属于你的方案
+          {t("home.titleLine1")}<br />
+          {t("home.titleLine2")}
         </h1>
 
         <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-muted">
-          仅需回答几个简单问题，我们将基于你的身体数据生成个性化的建议。
+          {t("home.subtitle")}
         </p>
 
         <Link
           href="/quiz/step-1"
           className="group mt-10 inline-flex h-14 w-full items-center justify-center rounded-full bg-accent px-8 text-base font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_rgba(234,179,8,0.6)] transition-all duration-200 hover:bg-accent-hover hover:shadow-[0_10px_32px_-8px_rgba(234,179,8,0.7)] active:scale-[0.985]"
         >
-          开始
+          {t("home.cta")}
           <svg
             className="ml-2 transition-transform duration-200 group-hover:translate-x-0.5"
             width="18"
@@ -42,7 +51,7 @@ export default function Home() {
           </svg>
         </Link>
 
-        <p className="mt-4 text-xs text-subtle">无需注册 · 数据不会被分享</p>
+        <p className="mt-4 text-xs text-subtle">{t("home.footnote")}</p>
       </div>
     </main>
   );

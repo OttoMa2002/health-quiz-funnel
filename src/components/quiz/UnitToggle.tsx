@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useT, type I18nKey } from "@/lib/i18n";
 import type { Unit } from "@/store/quiz";
 
 interface UnitToggleProps {
@@ -8,12 +9,13 @@ interface UnitToggleProps {
   onChange: (v: Unit) => void;
 }
 
-const OPTIONS: { value: Unit; label: string; hint: string }[] = [
-  { value: "metric", label: "公制", hint: "cm · kg" },
-  { value: "imperial", label: "英制", hint: "ft · lb" },
+const OPTIONS: { value: Unit; labelKey: I18nKey; hintKey: I18nKey }[] = [
+  { value: "metric", labelKey: "common.metric", hintKey: "common.metricHint" },
+  { value: "imperial", labelKey: "common.imperial", hintKey: "common.imperialHint" },
 ];
 
 export function UnitToggle({ value, onChange }: UnitToggleProps) {
+  const t = useT();
   return (
     <div className="inline-flex rounded-full border border-border bg-surface-2 p-1">
       {OPTIONS.map((opt) => {
@@ -23,7 +25,7 @@ export function UnitToggle({ value, onChange }: UnitToggleProps) {
             key={opt.value}
             type="button"
             onClick={() => onChange(opt.value)}
-            className={`relative px-4 py-1.5 text-sm font-medium transition-colors ${
+            className={`relative cursor-pointer px-4 py-1.5 text-sm font-medium transition-colors ${
               active ? "text-foreground" : "text-muted hover:text-foreground"
             }`}
           >
@@ -35,9 +37,9 @@ export function UnitToggle({ value, onChange }: UnitToggleProps) {
               />
             )}
             <span className="relative flex items-baseline gap-1.5">
-              {opt.label}
+              {t(opt.labelKey)}
               <span className="text-[11px] font-normal text-subtle">
-                {opt.hint}
+                {t(opt.hintKey)}
               </span>
             </span>
           </button>

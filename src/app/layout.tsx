@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { I18nDetector } from "@/components/I18nDetector";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,6 +35,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body className="min-h-screen bg-background text-foreground antialiased">
+        <I18nDetector />
         {children}
       </body>
     </html>

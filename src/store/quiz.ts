@@ -7,6 +7,7 @@ export type Gender = "male" | "female";
 export type Goal = "lose" | "gain" | "tone";
 export type Frequency = "rarely" | "1-2" | "3-4" | "daily";
 export type Unit = "metric" | "imperial";
+export type Locale = "zh" | "en";
 
 export interface QuizState {
   gender: Gender | null;
@@ -18,6 +19,9 @@ export interface QuizState {
   targetWeightKg: number | null;
   targetIsAuto: boolean;
   frequency: Frequency | null;
+  locale: Locale;
+  // True once the user has explicitly toggled language. Auto-detect skips override.
+  localeManuallySet: boolean;
 
   setGender: (v: Gender) => void;
   setGoal: (v: Goal) => void;
@@ -28,6 +32,8 @@ export interface QuizState {
   setTargetWeightKg: (v: number | null) => void;
   setTargetIsAuto: (v: boolean) => void;
   setFrequency: (v: Frequency) => void;
+  setLocale: (v: Locale) => void;
+  setLocaleAutoDetected: (v: Locale) => void;
   reset: () => void;
 }
 
@@ -41,6 +47,8 @@ const initialData = {
   targetWeightKg: null,
   targetIsAuto: true,
   frequency: null,
+  locale: "zh" as Locale,
+  localeManuallySet: false,
 };
 
 export const useQuizStore = create<QuizState>()(
@@ -56,6 +64,8 @@ export const useQuizStore = create<QuizState>()(
       setTargetWeightKg: (v) => set({ targetWeightKg: v }),
       setTargetIsAuto: (v) => set({ targetIsAuto: v }),
       setFrequency: (v) => set({ frequency: v }),
+      setLocale: (v) => set({ locale: v, localeManuallySet: true }),
+      setLocaleAutoDetected: (v) => set({ locale: v }),
       reset: () => set(initialData),
     }),
     {

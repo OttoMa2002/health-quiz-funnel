@@ -3,27 +3,28 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, X } from "lucide-react";
+import { useT, type I18nKey } from "@/lib/i18n";
 
 interface Plan {
   id: string;
-  title: string;
+  titleKey: I18nKey;
   totalPrice: number;
   perMonth: number;
-  badge?: string;
+  badgeKey?: I18nKey;
   highlight?: boolean;
 }
 
 const PLANS: Plan[] = [
-  { id: "monthly", title: "1 个月", totalPrice: 98, perMonth: 98 },
+  { id: "monthly", titleKey: "price.monthly", totalPrice: 98, perMonth: 98 },
   {
     id: "quarter",
-    title: "3 个月",
+    titleKey: "price.quarter",
     totalPrice: 168,
     perMonth: 56,
-    badge: "最受欢迎",
+    badgeKey: "price.badgePopular",
     highlight: true,
   },
-  { id: "yearly", title: "12 个月", totalPrice: 298, perMonth: 25, badge: "省 75%" },
+  { id: "yearly", titleKey: "price.yearly", totalPrice: 298, perMonth: 25, badgeKey: "price.badgeSave" },
 ];
 
 interface PriceModalProps {
@@ -32,6 +33,7 @@ interface PriceModalProps {
 }
 
 export function PriceModal({ open, onClose }: PriceModalProps) {
+  const t = useT();
   const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
@@ -54,7 +56,7 @@ export function PriceModal({ open, onClose }: PriceModalProps) {
   }, [toast]);
 
   const handlePick = (plan: Plan) => {
-    setToast(`已选择「${plan.title}」· 演示模式，未接入真实支付`);
+    setToast(t("price.toastSelected", { plan: t(plan.titleKey) }));
   };
 
   return (
@@ -70,7 +72,7 @@ export function PriceModal({ open, onClose }: PriceModalProps) {
         >
           <motion.button
             type="button"
-            aria-label="关闭价格卡片"
+            aria-label={t("price.closeAria")}
             onClick={onClose}
             className="absolute inset-0 bg-foreground/30 backdrop-blur-sm"
             initial={{ opacity: 0 }}
@@ -93,7 +95,7 @@ export function PriceModal({ open, onClose }: PriceModalProps) {
             <button
               type="button"
               onClick={onClose}
-              aria-label="关闭"
+              aria-label={t("common.close")}
               className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
             >
               <X size={18} strokeWidth={2.2} />
@@ -104,10 +106,10 @@ export function PriceModal({ open, onClose }: PriceModalProps) {
                 id="price-modal-title"
                 className="text-2xl font-semibold tracking-tight text-foreground"
               >
-                解锁完整计划
+                {t("price.title")}
               </h2>
               <p className="mx-auto max-w-xs text-sm leading-relaxed text-muted">
-                按你的目标定制每周训练 + 饮食方案，随时根据进度调整。
+                {t("price.subtitle")}
               </p>
             </div>
 
@@ -118,13 +120,13 @@ export function PriceModal({ open, onClose }: PriceModalProps) {
                     type="button"
                     onClick={() => handlePick(plan)}
                     whileTap={{ scale: 0.985 }}
-                    className={`relative flex w-full items-center justify-between rounded-2xl border px-5 py-4 text-left transition-all duration-200 ease-out hover:shadow-[var(--shadow-card-hover)] ${
+                    className={`relative flex w-full cursor-pointer items-center justify-between rounded-2xl border px-5 py-4 text-left transition-all duration-200 ease-out hover:shadow-[var(--shadow-card-hover)] ${
                       plan.highlight
                         ? "border-accent bg-accent-soft/50 shadow-[var(--shadow-card)]"
                         : "border-border bg-surface hover:border-border-strong"
                     }`}
                   >
-                    {plan.badge && (
+                    {plan.badgeKey && (
                       <span
                         className={`absolute -top-2 left-5 rounded-full px-2 py-0.5 text-[10px] font-semibold ${
                           plan.highlight
@@ -132,22 +134,22 @@ export function PriceModal({ open, onClose }: PriceModalProps) {
                             : "bg-foreground text-background"
                         }`}
                       >
-                        {plan.badge}
+                        {t(plan.badgeKey)}
                       </span>
                     )}
                     <div>
                       <div className="text-base font-semibold text-foreground">
-                        {plan.title}
+                        {t(plan.titleKey)}
                       </div>
                       <div className="mt-0.5 text-xs text-muted">
-                        ¥{plan.perMonth} / 月
+                        {t("price.perMonth", { price: plan.perMonth })}
                       </div>
                     </div>
                     <div className="text-right">
                       <div className="text-xl font-semibold text-foreground">
-                        ¥{plan.totalPrice}
+                        {t("price.totalPrice", { price: plan.totalPrice })}
                       </div>
-                      <div className="text-[11px] text-subtle">总价</div>
+                      <div className="text-[11px] text-subtle">{t("price.totalLabel")}</div>
                     </div>
                   </motion.button>
                 </li>
@@ -156,11 +158,11 @@ export function PriceModal({ open, onClose }: PriceModalProps) {
 
             <div className="mt-6 flex items-center justify-center gap-3 text-[11px] text-subtle">
               <span className="inline-flex items-center gap-1">
-                <Check size={12} strokeWidth={2.6} /> 7 天无理由
+                <Check size={12} strokeWidth={2.6} /> {t("price.benefit7d")}
               </span>
               <span className="h-3 w-px bg-border" />
               <span className="inline-flex items-center gap-1">
-                <Check size={12} strokeWidth={2.6} /> 随时取消
+                <Check size={12} strokeWidth={2.6} /> {t("price.benefitCancel")}
               </span>
             </div>
           </motion.div>

@@ -5,7 +5,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Sparkles, TrendingDown, TrendingUp, Target, Calendar } from "lucide-react";
 import { useQuizStore } from "@/store/quiz";
-import { computeReport, formatReportDate } from "@/lib/report";
+import { computeReport } from "@/lib/report";
+import { useT, useLocale, formatDate } from "@/lib/i18n";
 import { kgToLb } from "@/lib/units";
 import { WeightTrendChart } from "@/components/quiz/WeightTrendChart";
 import { PriceModal } from "@/components/quiz/PriceModal";
@@ -26,6 +27,8 @@ function useHasHydrated() {
 
 export default function Step5Page() {
   const hydrated = useHasHydrated();
+  const t = useT();
+  const locale = useLocale();
   const [modalOpen, setModalOpen] = useState(false);
 
   const goal = useQuizStore((s) => s.goal);
@@ -66,14 +69,14 @@ export default function Step5Page() {
     return (
       <section className="flex min-h-[60vh] flex-col items-center justify-center gap-4 text-center">
         <h1 className="text-xl font-semibold text-foreground">
-          数据缺失，请先完成测评
+          {t("step5.missingTitle")}
         </h1>
-        <p className="text-sm text-muted">看起来你还没填完前面的步骤。</p>
+        <p className="text-sm text-muted">{t("step5.missingHint")}</p>
         <Link
           href="/quiz/step-1"
           className="inline-flex h-12 items-center justify-center rounded-full bg-accent px-6 text-sm font-semibold text-accent-foreground"
         >
-          重新开始
+          {t("step5.restart")}
         </Link>
       </section>
     );
@@ -95,8 +98,6 @@ export default function Step5Page() {
     date: p.date,
   }));
 
-  const directionLabel =
-    report.direction === "lose" ? "减重" : report.direction === "gain" ? "增重" : "维持";
   const DirectionIcon =
     report.direction === "gain" ? TrendingUp : TrendingDown;
 
@@ -108,10 +109,21 @@ export default function Step5Page() {
         ? "text-danger"
         : "text-foreground";
 
+  const badgeText =
+    report.direction === "maintain"
+      ? t("step5.badgeMaintain")
+      : report.direction === "lose"
+        ? t("step5.badgeLose", { amount: totalChange, unit: wUnit })
+        : t("step5.badgeGain", { amount: totalChange, unit: wUnit });
+
   const insight =
     report.direction === "maintain"
-      ? "你的目标体重与当前体重接近，建议进入维持期 + 体态塑形。"
-      : `按你当前的运动频率，每周可${directionLabel} ${weeklyRate} ${wUnit} 左右。`;
+      ? t("step5.insightMaintain")
+      : report.direction === "lose"
+        ? t("step5.insightLose", { rate: weeklyRate, unit: wUnit })
+        : t("step5.insightGain", { rate: weeklyRate, unit: wUnit });
+
+  const targetDateStr = formatDate(report.targetDate, locale);
 
   // Stagger: show each card in sequence on mount.
   const card = (i: number) => ({
@@ -124,10 +136,10 @@ export default function Step5Page() {
     <section className="space-y-6 pb-8">
       <motion.header className="space-y-3" {...card(0)}>
         <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
-          <Sparkles size={12} strokeWidth={2.4} /> 你的个人方案
+          <Sparkles size={12} strokeWidth={2.4} /> {t("step5.eyebrow")}
         </p>
         <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground sm:text-[32px]">
-          基于你的回答，<br />我们已生成你的预测报告
+          {t("step5.titleLine1")}<br />{t("step5.titleLine2")}
         </h1>
       </motion.header>
 
@@ -135,24 +147,24 @@ export default function Step5Page() {
       <motion.div className="grid grid-cols-2 gap-3" {...card(1)}>
         <div className="rounded-[var(--radius-card)] border border-border bg-surface p-4 shadow-[var(--shadow-card)]">
           <div className="text-[11px] font-medium uppercase tracking-wider text-subtle">
-            BMI
+            {t("step5.bmiLabel")}
           </div>
           <div className={`mt-1 text-3xl font-semibold tracking-tight ${bmiToneClass}`}>
             {report.bmi.value}
           </div>
-          <div className="mt-1 text-xs text-muted">{report.bmi.category}</div>
+          <div className="mt-1 text-xs text-muted">{t(`bmi.${report.bmi.category}`)}</div>
         </div>
 
         <div className="rounded-[var(--radius-card)] border border-border bg-surface p-4 shadow-[var(--shadow-card)]">
           <div className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-wider text-subtle">
-            <Calendar size={11} strokeWidth={2.2} /> 预计达标
+            <Calendar size={11} strokeWidth={2.2} /> {t("step5.targetDateLabel")}
           </div>
           <div className="mt-1 text-3xl font-semibold tracking-tight text-foreground">
             {report.weeksToTarget}
-            <span className="ml-1 text-base font-medium text-muted">周</span>
+            <span className="ml-1 text-base font-medium text-muted">{t("step5.weeksUnit")}</span>
           </div>
           <div className="mt-1 text-xs text-muted">
-            {formatReportDate(report.targetDate)}
+            {targetDateStr}
           </div>
         </div>
       </motion.div>
@@ -165,17 +177,15 @@ export default function Step5Page() {
         <div className="flex items-center justify-between">
           <div>
             <div className="text-sm font-semibold text-foreground">
-              体重变化趋势
+              {t("step5.trendTitle")}
             </div>
             <div className="mt-0.5 text-xs text-muted">
-              从今天到 {formatReportDate(report.targetDate)}
+              {t("step5.trendRange", { date: targetDateStr })}
             </div>
           </div>
           <div className="inline-flex items-center gap-1 rounded-full bg-surface-2 px-2.5 py-1 text-[11px] font-semibold text-foreground">
             <DirectionIcon size={12} strokeWidth={2.4} />
-            {report.direction === "maintain"
-              ? "维持期"
-              : `${directionLabel} ${totalChange} ${wUnit}`}
+            {badgeText}
           </div>
         </div>
 
@@ -205,9 +215,9 @@ export default function Step5Page() {
         <button
           type="button"
           onClick={() => setModalOpen(true)}
-          className="group inline-flex h-14 w-full items-center justify-center rounded-full bg-accent px-8 text-base font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_rgba(234,179,8,0.6)] transition-all duration-200 hover:bg-accent-hover hover:shadow-[0_10px_32px_-8px_rgba(234,179,8,0.7)] active:scale-[0.985]"
+          className="group inline-flex h-14 w-full cursor-pointer items-center justify-center rounded-full bg-accent px-8 text-base font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_rgba(234,179,8,0.6)] transition-all duration-200 hover:bg-accent-hover hover:shadow-[0_10px_32px_-8px_rgba(234,179,8,0.7)] active:scale-[0.985]"
         >
-          解锁我们为您定制的完整计划
+          {t("step5.cta")}
           <svg
             className="ml-2 transition-transform duration-200 group-hover:translate-x-0.5"
             width="18"
@@ -223,7 +233,7 @@ export default function Step5Page() {
           </svg>
         </button>
         <p className="text-center text-xs text-subtle">
-          上方数据基于您提供的数据动态计算，完整计划将包含每周训练和饮食方案，并根据您的进度进行调整。
+          {t("step5.disclaimer")}
         </p>
       </motion.div>
 

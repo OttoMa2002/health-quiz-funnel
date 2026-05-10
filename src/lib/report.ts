@@ -1,6 +1,6 @@
 import type { Frequency, Goal } from "@/store/quiz";
 
-export type BmiCategory = "偏瘦" | "正常" | "偏胖" | "肥胖";
+export type BmiCategory = "underweight" | "normal" | "overweight" | "obese";
 export type BmiTone = "warning" | "normal" | "danger";
 export type Direction = "lose" | "gain" | "maintain";
 
@@ -95,10 +95,10 @@ export function recommendTargetWeightKg(
 export function computeBmi(weightKg: number, heightCm: number): BmiInfo {
   const m = heightCm / 100;
   const value = Math.round((weightKg / (m * m)) * 10) / 10;
-  if (value < 18.5) return { value, category: "偏瘦", tone: "warning" };
-  if (value < 24) return { value, category: "正常", tone: "normal" };
-  if (value < 28) return { value, category: "偏胖", tone: "warning" };
-  return { value, category: "肥胖", tone: "danger" };
+  if (value < 18.5) return { value, category: "underweight", tone: "warning" };
+  if (value < 24) return { value, category: "normal", tone: "normal" };
+  if (value < 28) return { value, category: "overweight", tone: "warning" };
+  return { value, category: "obese", tone: "danger" };
 }
 
 function startOfToday(): Date {
@@ -156,12 +156,4 @@ export function computeReport(input: ReportInput): ReportResult {
     direction,
     trend,
   };
-}
-
-export function formatReportDate(date: Date): string {
-  return `${date.getFullYear()} 年 ${date.getMonth() + 1} 月 ${date.getDate()} 日`;
-}
-
-export function formatShortDate(date: Date): string {
-  return `${date.getMonth() + 1}/${date.getDate()}`;
 }

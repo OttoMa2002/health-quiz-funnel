@@ -4,10 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { TOTAL_STEPS, getStepFromPath } from "@/lib/quiz-config";
+import { useT } from "@/lib/i18n";
 import { QuizProgressBar } from "./QuizProgressBar";
+import { LangToggle } from "./LangToggle";
 
 export function QuizShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const t = useT();
   const step = getStepFromPath(pathname) ?? 1;
   const backHref = step <= 1 ? "/" : `/quiz/step-${step - 1}`;
   const isImmersive = pathname === "/quiz/analyzing";
@@ -24,7 +27,7 @@ export function QuizShell({ children }: { children: React.ReactNode }) {
           <div className="mx-auto flex w-full max-w-xl items-center gap-3 px-5 py-4">
             <Link
               href={backHref}
-              aria-label="返回"
+              aria-label={t("common.back")}
               className="-ml-2 flex h-10 w-10 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
             >
               <svg
@@ -41,6 +44,7 @@ export function QuizShell({ children }: { children: React.ReactNode }) {
               </svg>
             </Link>
             <QuizProgressBar current={step} total={TOTAL_STEPS} />
+            <LangToggle />
           </div>
         </header>
       )}

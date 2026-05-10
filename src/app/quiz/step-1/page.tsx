@@ -5,24 +5,26 @@ import { useRouter } from "next/navigation";
 import { User, UserRound, type LucideIcon } from "lucide-react";
 import { OptionCard } from "@/components/quiz/OptionCard";
 import { TOTAL_STEPS } from "@/lib/quiz-config";
+import { useT } from "@/lib/i18n";
 import { useQuizStore, type Gender } from "@/store/quiz";
 
 interface OptionMeta {
   value: Gender;
-  label: string;
-  description: string;
+  labelKey: "step1.male" | "step1.female";
+  hintKey: "step1.maleHint" | "step1.femaleHint";
   Icon: LucideIcon;
 }
 
 const OPTIONS: OptionMeta[] = [
-  { value: "male", label: "男生", description: "Male", Icon: User },
-  { value: "female", label: "女生", description: "Female", Icon: UserRound },
+  { value: "male", labelKey: "step1.male", hintKey: "step1.maleHint", Icon: User },
+  { value: "female", labelKey: "step1.female", hintKey: "step1.femaleHint", Icon: UserRound },
 ];
 
 const ADVANCE_DELAY_MS = 240;
 
 export default function Step1Page() {
   const router = useRouter();
+  const t = useT();
   const [locked, setLocked] = useState(false);
   const gender = useQuizStore((s) => s.gender);
   const setGender = useQuizStore((s) => s.setGender);
@@ -41,19 +43,19 @@ export default function Step1Page() {
           Step 1 / {TOTAL_STEPS}
         </p>
         <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground sm:text-[32px]">
-          你的性别？
+          {t("step1.title")}
         </h1>
         <p className="text-[15px] leading-relaxed text-muted">
-          基于性别，方案会有不同的代谢和训练侧重。
+          {t("step1.subtitle")}
         </p>
       </header>
 
       <div className="space-y-3">
-        {OPTIONS.map(({ value, label, description, Icon }) => (
+        {OPTIONS.map(({ value, labelKey, hintKey, Icon }) => (
           <OptionCard
             key={value}
-            label={label}
-            description={description}
+            label={t(labelKey)}
+            description={t(hintKey)}
             icon={<Icon size={26} strokeWidth={1.6} />}
             selected={gender === value}
             onSelect={() => handlePick(value)}

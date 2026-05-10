@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useT, type I18nKey } from "@/lib/i18n";
 
-const MESSAGES = [
-  "正在分析你的身体数据...",
-  "计算你的 BMI...",
-  "评估你的代谢效率...",
-  "生成个性化方案...",
-  "马上完成...",
+const MESSAGE_KEYS: I18nKey[] = [
+  "analyzing.msg1",
+  "analyzing.msg2",
+  "analyzing.msg3",
+  "analyzing.msg4",
+  "analyzing.msg5",
 ];
 
 const TOTAL_DURATION_MS = 3500;
@@ -26,6 +27,7 @@ function easeOutQuart(t: number): number {
 }
 
 export function AnalyzeLoader({ onComplete }: AnalyzeLoaderProps) {
+  const t = useT();
   const [progress, setProgress] = useState(0);
   const [messageIdx, setMessageIdx] = useState(0);
 
@@ -50,7 +52,7 @@ export function AnalyzeLoader({ onComplete }: AnalyzeLoaderProps) {
     raf = requestAnimationFrame(tick);
 
     const messageInterval = window.setInterval(() => {
-      setMessageIdx((i) => Math.min(i + 1, MESSAGES.length - 1));
+      setMessageIdx((i) => Math.min(i + 1, MESSAGE_KEYS.length - 1));
     }, MESSAGE_INTERVAL_MS);
 
     return () => {
@@ -110,7 +112,7 @@ export function AnalyzeLoader({ onComplete }: AnalyzeLoaderProps) {
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="text-base font-medium text-foreground"
           >
-            {MESSAGES[messageIdx]}
+            {t(MESSAGE_KEYS[messageIdx])}
           </motion.p>
         </AnimatePresence>
       </div>

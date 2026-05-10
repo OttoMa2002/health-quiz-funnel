@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useT } from "@/lib/i18n";
 
 export interface ChartPoint {
   x: number; // days from start (gets normalized internally)
@@ -74,6 +75,7 @@ export function WeightTrendChart({
   startWeight,
   endWeight,
 }: WeightTrendChartProps) {
+  const t = useT();
   const gradientId = useId();
   const svgRef = useRef<SVGSVGElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -283,7 +285,7 @@ export function WeightTrendChart({
           fontSize="11"
           fontWeight="600"
         >
-          今天 · {fmt(startWeight)}
+          {t("common.today")} · {fmt(startWeight)}
           {unitLabel}
         </text>
       </motion.g>
@@ -316,7 +318,7 @@ export function WeightTrendChart({
           fontSize="11"
           fontWeight="600"
         >
-          目标 · {fmt(endWeight)}
+          {t("common.target")} · {fmt(endWeight)}
           {unitLabel}
         </text>
       </motion.g>

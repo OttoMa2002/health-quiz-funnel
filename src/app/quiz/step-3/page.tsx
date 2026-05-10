@@ -8,6 +8,7 @@ import { UnitToggle } from "@/components/quiz/UnitToggle";
 import { NumberField } from "@/components/quiz/NumberField";
 import { TOTAL_STEPS } from "@/lib/quiz-config";
 import { recommendTargetWeightKg } from "@/lib/report";
+import { useT } from "@/lib/i18n";
 import { cmToFtIn, cmToInches, ftInToCm, kgToLb, lbToKg } from "@/lib/units";
 
 const RANGES = {
@@ -30,13 +31,18 @@ interface FormInput {
   targetWeightKg: number | null;
 }
 
-function validate(input: FormInput, unit: Unit): FormErrors {
+type T = ReturnType<typeof useT>;
+
+function validate(input: FormInput, unit: Unit, t: T): FormErrors {
   const errors: FormErrors = {};
 
   if (input.age == null) {
-    errors.age = "请输入年龄";
+    errors.age = t("step3.errAgeRequired");
   } else if (input.age < RANGES.age.min || input.age > RANGES.age.max) {
-    errors.age = `年龄需在 ${RANGES.age.min}–${RANGES.age.max} 岁之间`;
+    errors.age = t("step3.errAgeRange", {
+      min: RANGES.age.min,
+      max: RANGES.age.max,
+    });
   }
 
   const heightRange =
@@ -55,30 +61,30 @@ function validate(input: FormInput, unit: Unit): FormErrors {
       : `${RANGES.weightKg.min}–${RANGES.weightKg.max} kg`;
 
   if (input.heightCm == null) {
-    errors.heightCm = "请输入身高";
+    errors.heightCm = t("step3.errHeightRequired");
   } else if (
     input.heightCm < RANGES.heightCm.min ||
     input.heightCm > RANGES.heightCm.max
   ) {
-    errors.heightCm = `身高需在 ${heightRange} 之间`;
+    errors.heightCm = t("step3.errHeightRange", { range: heightRange });
   }
 
   if (input.weightKg == null) {
-    errors.weightKg = "请输入体重";
+    errors.weightKg = t("step3.errWeightRequired");
   } else if (
     input.weightKg < RANGES.weightKg.min ||
     input.weightKg > RANGES.weightKg.max
   ) {
-    errors.weightKg = `体重需在 ${weightRange} 之间`;
+    errors.weightKg = t("step3.errWeightRange", { range: weightRange });
   }
 
   if (input.targetWeightKg == null) {
-    errors.targetWeightKg = "请输入目标体重";
+    errors.targetWeightKg = t("step3.errTargetRequired");
   } else if (
     input.targetWeightKg < RANGES.weightKg.min ||
     input.targetWeightKg > RANGES.weightKg.max
   ) {
-    errors.targetWeightKg = `目标体重需在 ${weightRange} 之间`;
+    errors.targetWeightKg = t("step3.errTargetRange", { range: weightRange });
   }
 
   return errors;
@@ -88,6 +94,7 @@ type FieldKey = keyof FormErrors;
 
 export default function Step3Page() {
   const router = useRouter();
+  const t = useT();
 
   const age = useQuizStore((s) => s.age);
   const heightCm = useQuizStore((s) => s.heightCm);
@@ -118,14 +125,14 @@ export default function Step3Page() {
     targetWeightKg: false,
   });
 
-  const errors = validate({ age, heightCm, weightKg, targetWeightKg }, unit);
+  const errors = validate({ age, heightCm, weightKg, targetWeightKg }, unit, t);
   if (targetIsAuto) delete errors.targetWeightKg;
   const allValid = Object.keys(errors).length === 0;
 
   const visibleError = (k: FieldKey) =>
     touched[k] ? errors[k] : undefined;
   const touch = (k: FieldKey) =>
-    setTouched((t) => ({ ...t, [k]: true }));
+    setTouched((prev) => ({ ...prev, [k]: true }));
 
   const handleSubmit = () => {
     setTouched({
@@ -144,25 +151,25 @@ export default function Step3Page() {
           Step 3 / {TOTAL_STEPS}
         </p>
         <h1 className="text-[28px] font-semibold leading-tight tracking-tight text-foreground sm:text-[32px]">
-          你的身体数据
+          {t("step3.title")}
         </h1>
         <p className="text-[15px] leading-relaxed text-muted">
-          我们用这些数据计算 BMI 和你的个性化目标。
+          {t("step3.subtitle")}
         </p>
       </header>
 
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-muted">单位</span>
+        <span className="text-sm font-medium text-muted">{t("step3.unitLabel")}</span>
         <UnitToggle value={unit} onChange={setUnit} />
       </div>
 
       <div className="space-y-4">
         <NumberField
-          label="年龄"
+          label={t("step3.age")}
           value={age ?? undefined}
           onChange={(v) => setAge(v ?? null)}
-          unit="岁"
-          placeholder="例如 25"
+          unit={t("step3.ageUnit")}
+          placeholder={t("step3.agePlaceholder")}
           max={120}
           error={visibleError("age")}
           onBlur={() => touch("age")}
@@ -177,10 +184,12 @@ export default function Step3Page() {
         />
 
         <WeightField
-          label="当前体重"
+          label={t("step3.weight")}
           unit={unit}
           weightKg={weightKg}
           onChange={setWeightKg}
+          metricPlaceholder={t("step3.weightPlaceholderKg")}
+          imperialPlaceholder={t("step3.weightPlaceholderLb")}
           error={visibleError("weightKg")}
           onBlur={() => touch("weightKg")}
         />
@@ -197,20 +206,22 @@ export default function Step3Page() {
         ) : (
           <div className="space-y-2">
             <WeightField
-              label="目标体重"
+              label={t("step3.targetWeight")}
               unit={unit}
               weightKg={targetWeightKg}
               onChange={setTargetWeightKg}
+              metricPlaceholder={t("step3.targetPlaceholderKg")}
+              imperialPlaceholder={t("step3.targetPlaceholderLb")}
               error={visibleError("targetWeightKg")}
               onBlur={() => touch("targetWeightKg")}
             />
             <button
               type="button"
               onClick={() => setTargetIsAuto(true)}
-              className="inline-flex items-center gap-1 text-xs font-medium text-muted underline-offset-4 hover:text-foreground hover:underline"
+              className="inline-flex cursor-pointer items-center gap-1 text-xs font-medium text-muted underline-offset-4 hover:text-foreground hover:underline"
             >
               <Sparkles size={11} strokeWidth={2.4} />
-              用回系统推荐
+              {t("step3.targetUseRec")}
             </button>
           </div>
         )}
@@ -220,9 +231,9 @@ export default function Step3Page() {
         type="button"
         onClick={handleSubmit}
         disabled={!allValid}
-        className="group inline-flex h-14 w-full items-center justify-center rounded-full bg-accent px-8 text-base font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_rgba(234,179,8,0.6)] transition-all duration-200 hover:bg-accent-hover hover:shadow-[0_10px_32px_-8px_rgba(234,179,8,0.7)] active:scale-[0.985] disabled:pointer-events-none disabled:bg-surface-2 disabled:text-subtle disabled:shadow-none"
+        className="group inline-flex h-14 w-full cursor-pointer items-center justify-center rounded-full bg-accent px-8 text-base font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_rgba(234,179,8,0.6)] transition-all duration-200 hover:bg-accent-hover hover:shadow-[0_10px_32px_-8px_rgba(234,179,8,0.7)] active:scale-[0.985] disabled:pointer-events-none disabled:bg-surface-2 disabled:text-subtle disabled:shadow-none"
       >
-        下一步
+        {t("step3.submit")}
       </button>
     </section>
   );
@@ -241,14 +252,15 @@ function HeightField({
   error?: string;
   onBlur?: () => void;
 }) {
+  const t = useT();
   if (unit === "metric") {
     return (
       <NumberField
-        label="身高"
+        label={t("step3.height")}
         value={heightCm ?? undefined}
         onChange={(v) => onChange(v ?? null)}
         unit="cm"
-        placeholder="例如 175"
+        placeholder={t("step3.heightPlaceholderCm")}
         max={300}
         error={error}
         onBlur={onBlur}
@@ -270,7 +282,7 @@ function HeightField({
 
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-medium text-foreground">身高</label>
+      <label className="block text-sm font-medium text-foreground">{t("step3.height")}</label>
       <div className="grid grid-cols-2 gap-3">
         <NumberField
           value={ft}
@@ -299,6 +311,8 @@ function WeightField({
   unit,
   weightKg,
   onChange,
+  metricPlaceholder,
+  imperialPlaceholder,
   error,
   onBlur,
 }: {
@@ -306,6 +320,8 @@ function WeightField({
   unit: Unit;
   weightKg: number | null;
   onChange: (v: number | null) => void;
+  metricPlaceholder: string;
+  imperialPlaceholder: string;
   error?: string;
   onBlur?: () => void;
 }) {
@@ -316,7 +332,7 @@ function WeightField({
         value={weightKg != null ? Math.round(weightKg) : undefined}
         onChange={(v) => onChange(v ?? null)}
         unit="kg"
-        placeholder={label === "目标体重" ? "例如 65" : "例如 70"}
+        placeholder={metricPlaceholder}
         max={500}
         error={error}
         onBlur={onBlur}
@@ -330,7 +346,7 @@ function WeightField({
       value={weightKg != null ? Math.round(kgToLb(weightKg)) : undefined}
       onChange={(v) => onChange(v == null ? null : lbToKg(v))}
       unit="lb"
-      placeholder={label === "目标体重" ? "例如 143" : "例如 154"}
+      placeholder={imperialPlaceholder}
       max={1000}
       error={error}
       onBlur={onBlur}
@@ -347,16 +363,17 @@ function RecommendedTargetCard({
   valueKg: number | null;
   onCustomize: () => void;
 }) {
+  const t = useT();
   const display =
     valueKg == null
       ? null
       : unit === "metric"
-        ? { value: valueKg, suffix: "kg" }
+        ? { value: Math.round(valueKg), suffix: "kg" }
         : { value: Math.round(kgToLb(valueKg)), suffix: "lb" };
 
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-medium text-foreground">目标体重</label>
+      <label className="block text-sm font-medium text-foreground">{t("step3.targetWeight")}</label>
       <div className="rounded-[var(--radius-card)] border border-accent/40 bg-accent-soft/40 p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-0.5">
@@ -375,22 +392,20 @@ function RecommendedTargetCard({
               )}
             </div>
             <p className="text-[11px] leading-relaxed text-muted">
-              {display
-                ? "基于 BMI 22 的健康范围推算"
-                : "填写身高后自动计算"}
+              {display ? t("step3.targetRecHint") : t("step3.targetRecPending")}
             </p>
           </div>
           <span className="inline-flex items-center gap-1 rounded-full border border-accent/50 bg-accent/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
             <Sparkles size={10} strokeWidth={2.5} />
-            推荐
+            {t("common.recommendBadge")}
           </span>
         </div>
         <button
           type="button"
           onClick={onCustomize}
-          className="mt-3 text-xs font-medium text-accent-foreground/80 underline-offset-4 hover:text-accent-foreground hover:underline"
+          className="mt-3 cursor-pointer text-xs font-medium text-accent-foreground/80 underline-offset-4 hover:text-accent-foreground hover:underline"
         >
-          自定义目标 →
+          {t("step3.targetCustomize")}
         </button>
       </div>
     </div>
